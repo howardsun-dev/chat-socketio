@@ -14,6 +14,7 @@ interface ServerError {
   message: { err: string };
 }
 
+// Auth Router
 app.use('/auth', authRouter);
 
 app.get('/', (req: Request, res: Response) => {
