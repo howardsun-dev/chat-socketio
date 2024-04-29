@@ -24,7 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).send('404: Page Not Found');
 });
 
 // Global Error Handler
