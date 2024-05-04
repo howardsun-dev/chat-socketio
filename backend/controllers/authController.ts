@@ -1,6 +1,17 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 
-export const signup = (req: Request, res: Response, next: NextFunction) => {
+export const signup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { fullName, username, password, confirmPassword, gender } = req.body;
+    if (!fullName || !username || !password || !confirmPassword || !gender) {
+      throw new Error('All fields are required');
+    }
+  } catch (error) {}
+
   res.locals.signup = 'Signup';
   return next();
 };
