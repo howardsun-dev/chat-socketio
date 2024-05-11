@@ -2,11 +2,13 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv = require('dotenv');
 import authRouter from './routes/authRouter';
+import connectToDb from './db/connectToDb';
+import { connect } from 'http2';
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 interface ServerError {
   log: string;
@@ -41,6 +43,7 @@ app.use(
   },
 );
 
-app.listen(port, () => {
-  console.log(`[server]: Server listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  connectToDb();
+  console.log(`[server] Server listening at http://localhost:${PORT}`);
 });
