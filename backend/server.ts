@@ -5,8 +5,6 @@ import authRouter from './routes/authRouter';
 import connectToDb from './db/connectToDb';
 import { connect } from 'http2';
 
-dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +13,10 @@ interface ServerError {
   status?: number;
   message: { err: string };
 }
+
+dotenv.config();
+app.use(express.json()); // to Prase incoming requests with JSON payload (reqbody)
+app.use(express.urlencoded({ extended: true })); // parse incoming request with url-encoded payloads
 
 // Auth Router
 app.use('/auth', authRouter);

@@ -1,4 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
+import User from '../models/userModel';
 
 export const signup = async (
   req: Request,
@@ -10,6 +11,18 @@ export const signup = async (
     if (!fullName || !username || !password || !confirmPassword || !gender) {
       throw new Error('All fields are required');
     }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match' });
+    }
+
+    const user = await User.findOne({ username });
+
+    if (user) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Hash Password
   } catch (error) {}
 
   res.locals.signup = 'Signup';
