@@ -3,7 +3,6 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv = require('dotenv');
 import authRouter from './routes/authRouter';
 import connectToDb from './db/connectToDb';
-import { connect } from 'http2';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,12 +17,11 @@ dotenv.config();
 app.use(express.json()); // to Prase incoming requests with JSON payload (reqbody)
 app.use(express.urlencoded({ extended: true })); // parse incoming request with url-encoded payloads
 
-// Auth Router
+// Routers
 app.use('/auth', authRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello Express + TypeScript Server');
-  // console.log(process.env);
 });
 
 // 404 Handler
