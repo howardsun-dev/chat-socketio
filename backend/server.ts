@@ -45,5 +45,5 @@ app.use(
 
 app.listen(PORT, () => {
   connectToDb();
-  console.log(`[server] Listening at http://localhost:${PORT}`);
+  console.log(`[server] Server listening at http://localhost:${PORT}`);
 });
