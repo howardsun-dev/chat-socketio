@@ -3,5 +3,7 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
-  }
+  },
+  "node": true,
+  "jest": true
 }
