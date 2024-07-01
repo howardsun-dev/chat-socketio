@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import User from '../models/userModel';
 import generateTokenAndSetCookie from '../utils/generateToken';
+import { ServerError } from '../types/types';
 
 export const signup = async (
   req: Request,
@@ -41,7 +42,7 @@ export const signup = async (
 
     if (newUser) {
       // Generate JWT token
-      generateTokenAndSetCookie(newUser._id, res);
+      generateTokenAndSetCookie(newUser._id.toString(), res);
       await newUser.save();
 
       res.status(201).json({
@@ -53,7 +54,15 @@ export const signup = async (
     } else {
       res.status(400).json({ error: 'Invalid user data' });
     }
-  } catch (error) {}
+  } catch (error) {
+    return next({
+      log: `Error in the authController.newUsers: ${error}`,
+      status: 500,
+      message: {
+        err: `Unable to create new user, check logs for more details.`,
+      },
+    });
+  }
 
   res.locals.signup = 'Signup';
   return next();
