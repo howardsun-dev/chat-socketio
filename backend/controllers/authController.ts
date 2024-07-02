@@ -51,11 +51,12 @@ export const signup = async (
         username: newUser.username,
         profilePic: newUser.profilePic,
       };
+
+      console.log(res.locals.signup);
+      return next();
     } else {
       res.status(400).json({ error: 'Invalid user data' });
     }
-
-    return next();
   } catch (error) {
     return next({
       log: `Error in the authController.newUsers: ${error}`,
