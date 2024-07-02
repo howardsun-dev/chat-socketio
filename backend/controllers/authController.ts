@@ -45,15 +45,17 @@ export const signup = async (
       generateTokenAndSetCookie(newUser._id.toString(), res);
       await newUser.save();
 
-      res.status(201).json({
+      res.locals.signup = {
         _id: newUser._id,
         fullNam: newUser.fullName,
         username: newUser.username,
         profilePic: newUser.profilePic,
-      });
+      };
     } else {
       res.status(400).json({ error: 'Invalid user data' });
     }
+
+    return next();
   } catch (error) {
     return next({
       log: `Error in the authController.newUsers: ${error}`,
@@ -63,14 +65,33 @@ export const signup = async (
       },
     });
   }
-
-  res.locals.signup = 'Signup';
-  return next();
 };
 
-export const login = (req: Request, res: Response, next: NextFunction) => {
-  res.locals.login = 'Login';
-  return next();
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user?.password || '',
+    );
+
+    if (!user || !isPasswordValid) {
+      return res.status(400).json({ error: 'Invalid username or password' });
+    }
+  } catch (error) {
+    return next({
+      log: `Error in the authController.login: ${error}`,
+      status: 500,
+      message: {
+        err: `Unable to create login, check logs for more details.`,
+      },
+    });
+  }
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {

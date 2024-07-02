@@ -4,7 +4,8 @@ import { login, logout, signup } from '../controllers/authController';
 const authRouter = express();
 
 authRouter.post('/signup', signup, (req: Request, res: Response) => {
-  res.status(200).send(res.locals.signup);
+  console.log(res.locals.signup);
+  res.status(201).json(res.locals.signup);
 });
 
 authRouter.post('/login', login, (req: Request, res: Response) => {
