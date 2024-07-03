@@ -4,6 +4,8 @@
   "rules": {
     "prettier/prettier": ["error"]
   },
-  "node": true,
-  "jest": true
+  "env": {
+    "node": true,
+    "jest": true
+  }
 }
