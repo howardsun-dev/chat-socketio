@@ -34,6 +34,10 @@ export const sendMessage = async (
       conversation.messages.push(newMessage._id);
     }
 
+    await Promise.all([conversation.save(), newMessage.save()]);
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
     return next();
   } catch (error) {
     return next({
