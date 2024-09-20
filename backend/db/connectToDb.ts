@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+// Database not connected at the moment, double check credentials
+
 const connectToDb = async () => {
   try {
     if (!process.env.MONGODB_URI) {
